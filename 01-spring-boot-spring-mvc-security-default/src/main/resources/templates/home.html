@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>My firt page with Spring boot security</title>
 </head>
 <body>
-  <h2>Example of my firt page on spring boot security</h2>
+  <h2>Example of my first page on spring boot security</h2>
   <hr>
   <hr>
-  <a>Test my firt page on spring boot security</a>
+  <a>Test my first page on spring boot security</a>
+
+  <hr>
+  <!-- Display users and roles -->
+  <a>
+      user:<span sec:authentication="principal.username" ></span>
+      <br>
+      <br>
+      roles:<span sec:authentication="principal.authorities"></span>
+
+  </a>
+
+  <div sec:authorize="hasRole('MANAGER')">
+    <p>
+        <!-- add link for /leaders only managers-->
+        <a th:href="@{/leaders}">(Only for Managers )</a>
+    </p>
+  </div>
+
+  <hr>
+  <div sec:authorize="hasRole('ADMIN')">
+      <p>
+          <!-- add link for /systems only admin-->
+          <a th:href="@{/systems}">(Only for Admins )</a>
+      </p>
+  </div>
+
+
+  <form action="#" th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout">
+
+  </form>
+
 </body>
 </html>
